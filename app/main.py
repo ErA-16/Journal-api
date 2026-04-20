@@ -6,7 +6,7 @@ from app.tags.router import router as tags_router
 
 Base.metadata.create_all(bind=engine)
 
-app = FastAPI(title="Dev Journal API")
+app = FastAPI(title="Journal API")
 
 app.include_router(auth_router)
 app.include_router(entries_router)
