@@ -1,21 +1,13 @@
-import sys
-import traceback
+from fastapi import FastAPI
+from app.database import Base, engine
+from app.auth.router import router as auth_router
+from app.entries.router import router as entries_router
+from app.tags.router import router as tags_router
 
-try:
-    from fastapi import FastAPI
-    from app.database import Base, engine
-    from app.auth.router import router as auth_router
-    from app.entries.router import router as entries_router
-    from app.tags.router import router as tags_router
+Base.metadata.create_all(bind=engine)
 
-    Base.metadata.create_all(bind=engine)
+app = FastAPI(title="Dev Journal API")
 
-    app = FastAPI(title="Dev Journal API")
-
-    app.include_router(auth_router)
-    app.include_router(entries_router)
-    app.include_router(tags_router)
-
-except Exception as e:
-    traceback.print_exc()
-    sys.exit(1)
+app.include_router(auth_router)
+app.include_router(entries_router)
+app.include_router(tags_router)
